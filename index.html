@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Don De Dieu BTP – Bâtisseur de Confiance | Niamey, Niger</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  :root {
+    --blue-primary: #1565C0;
+    --blue-dark: #0D47A1;
+    --blue-light: #1976D2;
+    --blue-sky: #42A5F5;
+    --blue-pale: #E3F2FD;
+    --navy: #0a1628;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-200: #e2e8f0;
+    --gray-600: #475569;
+    --gray-800: #1e293b;
+    --gold: #F59E0B;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 24px rgba(21,101,192,0.12);
+    --shadow-lg: 0 8px 48px rgba(21,101,192,0.18);
+    --shadow-xl: 0 20px 80px rgba(21,101,192,0.22);
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--gray-800);
+    overflow-x: hidden;
+  }
+
+  .material-icons {
+    font-size: inherit;
+    vertical-align: middle;
+  }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 24px;
+    height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+  }
+  nav.scrolled { box-shadow: var(--shadow-md); }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo img { height: 52px; width: auto; object-fit: contain; }
+  .nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
+  .nav-brand strong { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--blue-dark); }
+  .nav-brand span { font-size: 0.7rem; color: var(--blue-primary); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { text-decoration: none; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+  .nav-links a:hover { color: var(--blue-primary); }
+  .nav-cta {
+    background: transparent; color: var(--blue-primary);
+    padding: 8px 20px; border-radius: 40px;
+    font-weight: 600; font-size: 0.88rem;
+    text-decoration: none; transition: all 0.3s ease;
+    white-space: nowrap; display: flex; align-items: center; gap: 6px;
+    border: 2px solid var(--blue-primary);
+  }
+  .nav-cta:hover { background: var(--blue-primary); color: white; transform: translateY(-2px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--gray-800); border-radius: 2px; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 24px 80px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5f5f0 0%, #e8e4d8 100%);
+  }
+  .hero-sketch-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+  .carousel-mini {
+    position: relative;
+    width: 100%;
+    height: 420px;
+  }
+  .carousel-stack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .caro-card {
+    position: absolute;
+    width: 100%;
+    height: 380px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    transition: all 0.5s ease;
+    background: white;
+  }
+  .caro-card.card0 { transform: translateX(0) translateY(0) scale(1); opacity: 1; z-index: 5; }
+  .caro-card.card1 { transform: translateX(12px) translateY(-12px) scale(0.92); opacity: 0.7; z-index: 4; }
+  .caro-card.card2 { transform: translateX(24px) translateY(-24px) scale(0.84); opacity: 0.5; z-index: 3; }
+  .caro-card img, .caro-card video { width: 100%; height: 100%; object-fit: cover; }
+  .caro-card .card-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: white; padding: 20px; font-weight: 600;
+  }
+  .carousel-nav { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+  .caro-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--blue-primary); border: none;
+    color: white; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .caro-btn:hover { background: var(--blue-dark); transform: scale(1.05); }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-primary); color: white;
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 900; line-height: 1.15;
+    color: var(--navy); margin-bottom: 20px;
+  }
+  .hero h1 em { color: var(--blue-primary); font-style: normal; }
+  .hero p {
+    font-size: 1rem; line-height: 1.6; color: var(--gray-600);
+    margin-bottom: 32px; max-width: 500px;
+  }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--blue-primary); color: white;
+    padding: 14px 28px; border-radius: 10px;
+    font-weight: 700; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.3s;
+  }
+  .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); }
+  .btn-secondary {
+    background: white; color: var(--blue-primary);
+    padding: 14px 28px; border-radius: 10px;
+    font-weight: 700; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 2px solid var(--blue-primary);
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover { background: var(--blue-pale); transform: translateY(-2px); }
+
+  /* SECTIONS */
+  section { padding: 80px 24px; }
+  .container { max-width: 1280px; margin: 0 auto; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--blue-pale); color: var(--blue-primary);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800; color: var(--navy);
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--gray-600);
+    max-width: 600px; line-height: 1.6;
+  }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; margin-top: 48px;
+  }
+  .service-card {
+    background: white; border: 1px solid var(--gray-200);
+    border-radius: var(--radius); padding: 28px;
+    text-align: center; transition: all 0.3s;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .svc-icon {
+    width: 64px; height: 64px; background: var(--blue-pale);
+    border-radius: 16px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .svc-icon .material-icons { font-size: 30px; color: var(--blue-primary); }
+  .service-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .service-card p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.5; }
+
+  /* POURQUOI NOUS - nouvelle version avec citation à droite */
+  .why-section { background: var(--blue-primary); padding: 80px 24px; }
+  .why-section .section-tag { background: rgba(255,255,255,0.15); color: white; }
+  .why-section .section-title { color: white; }
+  .why-section .section-sub { color: rgba(255,255,255,0.8); }
+  .why-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 48px;
+    align-items: stretch;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .why-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s;
+  }
+  .why-card:hover { background: rgba(255,255,255,0.18); transform: translateY(-4px); }
+  .why-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.2);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .why-card h3 { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .why-card p { color: rgba(255,255,255,0.75); font-size: 0.85rem; line-height: 1.5; }
+  
+  /* Carte citation blanche à droite */
+  .quote-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  .quote-icon {
+    font-size: 48px;
+    color: var(--blue-primary);
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+  .quote-card blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: var(--blue-primary);
+    margin-bottom: 24px;
+    font-weight: 700;
+  }
+  .quote-card cite {
+    color: var(--gray-600);
+    font-style: normal;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .quote-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--blue-primary);
+    margin: 20px auto 0;
+    border-radius: 3px;
+  }
+
+  /* RÉALISATIONS - 10 projets */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .portfolio-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: white;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+  }
+  .portfolio-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .portfolio-img {
+    height: 200px;
+    overflow: hidden;
+  }
+  .portfolio-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .portfolio-card:hover .portfolio-img img { transform: scale(1.05); }
+  .portfolio-info { padding: 16px; }
+  .portfolio-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .portfolio-info p { font-size: 0.75rem; color: var(--gray-600); }
+
+  /* TÉMOIGNAGE + FORMULAIRE */
+  .testi-form-section { background: var(--gray-50); }
+  .testi-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 48px;
+  }
+  .testi-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 36px;
+    box-shadow: var(--shadow-md);
+  }
+  .testi-stars .material-icons { color: var(--gold); font-size: 20px; }
+  .testi-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--gray-800);
+    margin: 20px 0;
+    font-style: italic;
+  }
+  .testi-footer { display: flex; align-items: center; gap: 14px; margin-top: 20px; }
+  .testi-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-primary), var(--blue-sky));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 700;
+  }
+  .contact-form-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 36px;
+    box-shadow: var(--shadow-md);
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    background: var(--gray-50);
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: var(--blue-primary);
+    outline: none;
+    background: white;
+  }
+  .form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--blue-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+  }
+  .form-submit:hover { background: var(--blue-dark); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.7);
+    padding: 48px 24px 32px;
+  }
+  .footer-inner { max-width: 1280px; margin: 0 auto; }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 40px;
+  }
+  .footer-brand img { height: 60px; width: auto; margin-bottom: 16px; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.6; max-width: 300px; }
+  .footer-col h4 { color: white; font-size: 0.85rem; margin-bottom: 16px; font-weight: 700; }
+  .footer-col a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; margin-bottom: 8px; transition: color 0.2s; }
+  .footer-col a:hover { color: white; }
+  .footer-col p { font-size: 0.85rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .footer-divider {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+  }
+
+  /* BOUTONS FLOTTANTS */
+  .float-buttons {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .float-wa, .float-devis {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+  .float-wa { background: #25D366; color: white; }
+  .float-devis { background: var(--blue-primary); color: white; }
+  .float-wa:hover, .float-devis:hover { transform: scale(1.1); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0; background: white; padding: 24px; box-shadow: var(--shadow-lg); }
+    .hamburger { display: flex; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .why-wrapper { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .testi-form-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .carousel-mini { height: 300px; }
+    .caro-card { height: 260px; }
+  }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.png" alt="Don De Dieu BTP Logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 fill=%27%231565C0%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2748%27 text-anchor=%27middle%27 fill=%27white%27 font-weight=%27bold%27%3ED%3C/text%3E%3C/svg%3E'">
+    <div class="nav-brand"><strong>Don De Dieu BTP</strong><span>Bâtisseur de Confiance</span></div>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#services"><span class="material-icons">construction</span> Services</a>
+    <a href="#pourquoi"><span class="material-icons">stars</span> Pourquoi Nous</a>
+    <a href="#realisations"><span class="material-icons">photo_library</span> Réalisations</a>
+    <a href="#contact"><span class="material-icons">contact_mail</span> Contact</a>
+    <a href="tel:+22780172714" class="nav-cta"><span class="material-icons">phone</span> +227 80-17-27-14</a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- SECTION 1: HERO -->
+<section class="hero">
+  <div class="hero-sketch-bg">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <rect width="1200" height="800" fill="#f5f5f0"/>
+      <g stroke="#2c3e50" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4">
+        <path d="M 200 600 L 200 200 M 200 200 L 260 150 M 260 150 L 260 200"/>
+        <rect x="300" y="350" width="120" height="250" stroke-dasharray="5,3"/>
+        <rect x="450" y="280" width="100" height="320" stroke-dasharray="5,3"/>
+        <path d="M 700 600 L 700 180 M 700 180 L 760 130 M 760 130 L 760 180"/>
+        <path d="M 820 400 L 820 600 M 820 400 L 880 370 L 940 400 L 940 600" stroke-dasharray="5,3"/>
+        <path d="M 50 650 Q 600 620 1150 650" stroke-width="2"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="material-icons">location_on</span> Niamey, Niger · Clé en Main</div>
+      <h1>Construisez Votre Projet Avec <em>Confiance Totale</em></h1>
+      <p>Don De Dieu BTP livre des solutions professionnelles clé en main : architecture, construction, rénovation — avec qualité et transparence.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary"><span class="material-icons">description</span> Devis Gratuit</a>
+        <a href="https://wa.me/22780172714?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20mon%20projet%20de%20construction." class="btn-secondary" target="_blank"><span class="material-icons">chat</span> WhatsApp</a>
+      </div>
+    </div>
+    <div class="carousel-mini">
+      <div class="carousel-stack" id="carouselStack">
+        <!-- 6 images + 1 vidéo = 7 éléments au total, on en prend 3 à la fois -->
+        <div class="caro-card card0"><img src="assets/chantier1.jpg" alt="Villa"><div class="card-label">Villa Moderne</div></div>
+        <div class="caro-card card1"><img src="assets/chantier2.jpg" alt="Immeuble"><div class="card-label">Immeuble R+3</div></div>
+        <div class="caro-card card2"><img src="assets/chantier3.jpg" alt="Rénovation"><div class="card-label">Rénovation Complète</div></div>
+        <div class="caro-card card3 hidden-card"><img src="assets/chantier4.jpg" alt="Finitions"><div class="card-label">Finitions Premium</div></div>
+        <div class="caro-card card4 hidden-card"><img src="assets/chantier5.jpg" alt="Villa"><div class="card-label">Villa Contemporaine</div></div>
+        <div class="caro-card card5 hidden-card"><img src="assets/chantier6.jpg" alt="Bureaux"><div class="card-label">Siège Social</div></div>
+        <div class="caro-card card6 hidden-card">
+          <video src="assets/video.mp4" autoplay muted loop></video>
+          <div class="card-label">Notre Savoir-Faire en Vidéo</div>
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="caro-btn" id="prevCaro"><span class="material-icons">chevron_left</span></button>
+        <button class="caro-btn" id="nextCaro"><span class="material-icons">chevron_right</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-tag"><span class="material-icons">handyman</span> Nos Services</div>
+    <h2 class="section-title">Solutions Complètes <span style="color:var(--blue-primary)">Pour Votre Projet</span></h2>
+    <p class="section-sub">De la conception à la livraison, nous gérons tout.</p>
+    <div class="services-grid">
+      <div class="service-card fade-in"><div class="svc-icon"><span class="material-icons">apartment</span></div><h3>Construction Neuve</h3><p>Villas, immeubles, commerces — structure solide et durable.</p></div>
+      <div class="service-card fade-in"><div class="svc-icon"><span class="material-icons">build</span></div><h3>Rénovation</h3><p>Transformation complète de vos espaces existants.</p></div>
+      <div class="service-card fade-in"><div class="svc-icon"><span class="material-icons">bolt</span></div><h3>Électricité & Plomberie</h3><p>Installations aux normes de sécurité.</p></div>
+      <div class="service-card fade-in"><div class="svc-icon"><span class="material-icons">grid_on</span></div><h3>Carrelage & Finitions</h3><p>Pose de carrelage, faïence, peinture impeccable.</p></div>
+      <div class="service-card fade-in"><div class="svc-icon"><span class="material-icons">window</span></div><h3>Menuiserie Alu</h3><p>Portes, fenêtres, vitrages de haute qualité.</p></div>
+      <div class="service-card fade-in"><div class="svc-icon"><span class="material-icons">assignment</span></div><h3>Supervision Projet</h3><p>Contrôle qualité quotidien et reporting.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: POURQUOI NOUS avec citation à droite -->
+<section class="why-section" id="pourquoi">
+  <div class="container">
+    <div class="section-tag"><span class="material-icons">stars</span> Pourquoi Nous Choisir</div>
+    <h2 class="section-title">Pourquoi Les Propriétaires Font Confiance À <span style="color:#90CAF9">Don De Dieu BTP</span></h2>
+    <p class="section-sub">Ce qui nous distingue : une approche professionnelle, une transparence totale et un engagement ferme envers la qualité.</p>
+    
+    <div class="why-wrapper">
+      <div class="why-grid">
+        <div class="why-card fade-in"><div class="why-num">01</div><h3>Exécution Clé en Main</h3><p>Un seul contrat. Un seul responsable. Nous gérons l'intégralité de votre projet de A à Z.</p></div>
+        <div class="why-card fade-in"><div class="why-num">02</div><h3>Contrôle Qualité Rigoureux</h3><p>Inspections à chaque phase des travaux. Nos standards de qualité ne sont jamais compromis.</p></div>
+        <div class="why-card fade-in"><div class="why-num">03</div><h3>Supervision Professionnelle</h3><p>Un chef de chantier expérimenté présent quotidiennement pour superviser les travaux.</p></div>
+        <div class="why-card fade-in"><div class="why-num">04</div><h3>Délais Fiables et Tenus</h3><p>Planning détaillé dès le départ. Nous nous engageons sur des délais réalistes.</p></div>
+        <div class="why-card fade-in"><div class="why-num">05</div><h3>Communication Transparente</h3><p>Rapports réguliers, photos d'avancement, disponibilité WhatsApp.</p></div>
+        <div class="why-card fade-in"><div class="why-num">06</div><h3>Matériaux et Durabilité</h3><p>Nous utilisons uniquement des matériaux certifiés et durables.</p></div>
+      </div>
+      
+      <!-- Carte citation blanche à droite -->
+      <div class="quote-card fade-in">
+        <div class="quote-icon"><span class="material-icons">format_quote</span></div>
+        <blockquote>"Notre mission est simple : être le partenaire de construction le plus fiable de Niamey. Chaque projet est traité avec passion et exigence."</blockquote>
+        <cite>— La Direction, Don De Dieu BTP</cite>
+        <div class="quote-divider"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: RÉALISATIONS - 10 projets -->
+<section id="realisations">
+  <div class="container">
+    <div class="section-tag"><span class="material-icons">photo_library</span> Nos Réalisations</div>
+    <h2 class="section-title">Nos <span style="color:var(--blue-primary)">Projets Récents</span></h2>
+    <p class="section-sub">Des chantiers livrés avec succès à Niamey et ses environs.</p>
+    <div class="portfolio-grid">
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier1.jpg" alt="Villa Moderne"></div><div class="portfolio-info"><h3>Villa Moderne</h3><p>Résidentiel · Niamey · 4 chambres + piscine</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier2.jpg" alt="Immeuble R+3"></div><div class="portfolio-info"><h3>Immeuble R+3</h3><p>Commercial · Bureaux · Façade aluminium</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier3.jpg" alt="Rénovation"></div><div class="portfolio-info"><h3>Rénovation Totale</h3><p>Appartement 120m² · Finitions haut de gamme</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier4.jpg" alt="Finitions Premium"></div><div class="portfolio-info"><h3>Finitions Premium</h3><p>Carrelage marbre · Menuiserie alu</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier5.jpg" alt="Villa Contemporaine"></div><div class="portfolio-info"><h3>Villa Contemporaine</h3><p>Résidentiel · 5 chambres · Architecture moderne</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier6.jpg" alt="Siège Social"></div><div class="portfolio-info"><h3>Siège Social</h3><p>Commercial · Espace de bureaux haut standing</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier1.jpg" alt="Complexe Résidentiel"></div><div class="portfolio-info"><h3>Complexe Résidentiel</h3><p>8 villas · Livraison clé en main</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier2.jpg" alt="Centre Commercial"></div><div class="portfolio-info"><h3>Centre Commercial</h3><p>Espace de vente · Architecture fonctionnelle</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier3.jpg" alt="Rénovation Villa"></div><div class="portfolio-info"><h3>Rénovation Villa</h3><p>Transformation complète · Design intérieur</p></div></div>
+      <div class="portfolio-card fade-in"><div class="portfolio-img"><img src="assets/chantier4.jpg" alt="Extension Bureau"></div><div class="portfolio-info"><h3>Extension Bureau</h3><p>Agrandissement · Structure métallique</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: TÉMOIGNAGE + FORMULAIRE -->
+<section class="testi-form-section" id="contact">
+  <div class="container">
+    <div class="section-tag"><span class="material-icons">rate_review</span> Témoignage</div>
+    <h2 class="section-title">Ce Que Disent Nos <span style="color:var(--blue-primary)">Clients</span></h2>
+    <div class="testi-form-grid">
+      <div class="testi-card fade-in">
+        <div class="testi-stars"><span class="material-icons">star</span><span class="material-icons">star</span><span class="material-icons">star</span><span class="material-icons">star</span><span class="material-icons">star</span></div>
+        <p class="testi-text">"Je tiens à te remercier pour tous tes efforts. Tu es un PDG exemplaire. Pour les deux prestations que tu m'as faites, j'ai apprécié la qualité du travail. Je salue ta patience, ton sérieux et surtout ta confiance pour accomplir le travail. Vraiment fiston, tu as compris la vie. Ce que tu vises à l'avenir viendra incha Allah. Que Dieu t'accorde plus de chance pour prospérer dans tes activités. Qu'Allah te bénisse. C'est pas pour te flatter, j'ai compris que tu ne calcules pas d'intérêt pour bien faire le travail."</p>
+        <div class="testi-footer">
+          <div class="testi-avatar">H</div>
+          <div><div class="testi-name" style="font-weight:700;">Haziat</div><div style="font-size:0.75rem; color:var(--gray-600);">Propriétaire, Niamey</div></div>
+        </div>
+      </div>
+      <div class="contact-form-card fade-in">
+        <h3 style="font-family:'Playfair Display'; font-size:1.4rem; margin-bottom:20px;">Demande de Devis Gratuit</h3>
+        <form id="devisForm">
+          <div class="form-group"><label>Nom complet *</label><input type="text" id="nom" required placeholder="Votre nom"></div>
+          <div class="form-group"><label>Téléphone *</label><input type="tel" id="tel" required placeholder="+227 XX XX XX XX"></div>
+          <div class="form-group"><label>Type de projet *</label><select id="projet"><option value="">Sélectionnez...</option><option>Construction neuve</option><option>Rénovation</option><option>Électricité/Plomberie</option><option>Menuiserie aluminium</option><option>Autre</option></select></div>
+          <div class="form-group"><label>Message / Description</label><textarea id="message" rows="3" placeholder="Décrivez votre projet..."></textarea></div>
+          <button type="submit" class="form-submit"><span class="material-icons">send</span> Envoyer via WhatsApp</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="Don De Dieu BTP" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 fill=%27%231565C0%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2748%27 text-anchor=%27middle%27 fill=%27white%27 font-weight=%27bold%27%3ED%3C/text%3E%3C/svg%3E'">
+        <p>Don De Dieu BTP — Votre partenaire de confiance à Niamey. Construction clé en main, rénovation, supervision professionnelle.</p>
+      </div>
+      <div class="footer-col"><h4>Services</h4><a href="#services">Construction Neuve</a><a href="#services">Rénovation</a><a href="#services">Électricité/Plomberie</a><a href="#services">Menuiserie Alu</a><a href="#services">Carrelage & Finitions</a></div>
+      <div class="footer-col"><h4>Contact</h4><p><span class="material-icons" style="font-size:14px;">phone</span> +227 80-17-27-14</p><p><span class="material-icons" style="font-size:14px;">location_on</span> Niamey, Niger</p><p><span class="material-icons" style="font-size:14px;">email</span> ygandaholandry0@gmail.com</p><a href="https://wa.me/22780172714" target="_blank" style="color:#25D366; display:inline-flex; align-items:center; gap:6px;"><span class="material-icons">chat</span> WhatsApp</a></div>
+    </div>
+    <div class="footer-divider"><div>© 2025 Don De Dieu BTP · Bâtisseur de Confiance</div><div>Niamey, Niger</div></div>
+  </div>
+</footer>
+
+<!-- BOUTONS FLOTTANTS -->
+<div class="float-buttons">
+  <a href="https://wa.me/22780172714?text=Bonjour%2C%20je%20souhaite%20un%20devis%20gratuit%20pour%20mon%20projet%20de%20construction." class="float-wa" target="_blank"><span class="material-icons">chat</span></a>
+  <a href="#contact" class="float-devis"><span class="material-icons">description</span></a>
+</div>
+
+<script>
+  // Carrousel avec 7 éléments (6 images + 1 vidéo)
+  const allCards = document.querySelectorAll('.caro-card');
+  let currentStart = 0;
+  let autoInt;
+  
+  function showCards() {
+    // Masquer toutes les cartes
+    allCards.forEach(card => card.classList.add('hidden-card'));
+    // Afficher les 3 cartes à partir de currentStart
+    for (let i = 0; i < 3 && (currentStart + i) < allCards.length; i++) {
+      const idx = currentStart + i;
+      allCards[idx].classList.remove('hidden-card');
+      // Réattribuer les classes card0, card1, card2
+      allCards[idx].classList.remove('card0', 'card1', 'card2');
+      if (i === 0) allCards[idx].classList.add('card0');
+      else if (i === 1) allCards[idx].classList.add('card1');
+      else if (i === 2) allCards[idx].classList.add('card2');
+    }
+  }
+  
+  function nextCarousel() {
+    if (currentStart + 3 < allCards.length) {
+      currentStart++;
+    } else {
+      currentStart = 0;
+    }
+    showCards();
+    resetAuto();
+  }
+  
+  function prevCarousel() {
+    if (currentStart > 0) {
+      currentStart--;
+    } else {
+      currentStart = Math.max(0, allCards.length - 3);
+    }
+    showCards();
+    resetAuto();
+  }
+  
+  function resetAuto() { clearInterval(autoInt); autoInt = setInterval(nextCarousel, 5000); }
+  
+  // Ajout de la classe hidden-card dans le style
+  const style = document.createElement('style');
+  style.textContent = '.hidden-card { display: none !important; }';
+  document.head.appendChild(style);
+  
+  if (allCards.length) {
+    showCards();
+    autoInt = setInterval(nextCarousel, 5000);
+  }
+  
+  document.getElementById('prevCaro')?.addEventListener('click', prevCarousel);
+  document.getElementById('nextCaro')?.addEventListener('click', nextCarousel);
+  
+  // Vidéo : s'assurer qu'elle se lance bien
+  const video = document.querySelector('video');
+  if (video) { video.play().catch(e => console.log('Auto-play bloqué:', e)); }
+
+  // Navbar scroll
+  window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40));
+  function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+  document.querySelectorAll('#navLinks a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+  // Fade-in observer
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // Formulaire WhatsApp
+  const form = document.getElementById('devisForm');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nom = document.getElementById('nom').value.trim();
+    const tel = document.getElementById('tel').value.trim();
+    const projet = document.getElementById('projet').value;
+    const message = document.getElementById('message').value.trim();
+    
+    if (!nom || !tel) {
+      alert("Veuillez remplir votre nom et téléphone.");
+      return;
+    }
+    
+    let recap = "📋 *NOUVELLE DEMANDE DE DEVIS* 📋%0A";
+    recap += `👤 *Nom* : ${nom}%0A`;
+    recap += `📞 *Téléphone* : ${tel}%0A`;
+    recap += `🏗️ *Type de projet* : ${projet || "Non précisé"}%0A`;
+    recap += `📝 *Message* : ${message || "Aucun message"}%0A`;
+    recap += `%0A📍 Don De Dieu BTP - Niamey`;
+    
+    const whatsappUrl = `https://wa.me/22780172714?text=${recap}`;
+    window.open(whatsappUrl, '_blank');
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
