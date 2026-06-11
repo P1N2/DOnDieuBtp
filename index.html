@@ -544,7 +544,7 @@ nav.scrolled .hamburger span {
   @media (max-width: 960px) {
     /* --- Ajustements spécifiques au Hero en Mobile/Tablette --- */
     .hero {
-      padding: 120px 20px 0px; /* Augmenté de 60px à 120px pour pousser le texte vers le bas et éviter qu'il passe sous le header */
+      padding: 120px 20px 0px; 
       min-height: auto; 
     }
     .hero-inner { 
@@ -578,15 +578,34 @@ nav.scrolled .hamburger span {
     .contact-grid { grid-template-columns: 1fr; }
     .news-grid { grid-template-columns: 1fr; }
     .footer-top { grid-template-columns: 1fr; }
+    
+    /* --- CORRECTION DU MENU BURGER ET MOBILE --- */
     .nav-links { display: none; }
-    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0; background: white; padding: 24px; box-shadow: 0 8px 40px rgba(0,0,0,0.1); }
+    .nav-links.open { 
+      display: flex; 
+      flex-direction: column; 
+      position: absolute; 
+      top: 72px; left: 0; right: 0; 
+      background: white; 
+      padding: 24px; 
+      box-shadow: 0 8px 40px rgba(0,0,0,0.1); 
+    }
+    
+    /* FORCE les textes du menu mobile à devenir sombres dès qu'il est OUVERT, même sans scroll */
+    .nav-links.open a {
+      color: var(--blue-dark) !important;
+    }
+    .nav-links.open a:hover {
+      color: var(--blue) !important;
+    }
+    /* ------------------------------------------- */
+
     .hamburger { display: flex; }
     nav { padding: 0 20px; }
     .hero, .about-section, .services-section, .why-section, .portfolio-section, .testi-section, .contact-section, .news-section, footer { padding-left: 20px; padding-right: 20px; }
   }
 
   @media (max-width: 600px) {
-    /* Ajustement du padding haut pour les petits écrans si nécessaire */
     .hero {
       padding-top: 100px; 
     }
