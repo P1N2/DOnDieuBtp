@@ -27,31 +27,90 @@
   body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--gray-800); overflow-x: hidden; }
 
   /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: rgba(255,255,255,0.97); backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--gray-200);
-    padding: 0 40px; height: 72px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-logo img { height: 48px; width: auto; object-fit: contain; }
-  .nav-brand strong { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--blue-dark); display: block; }
-  .nav-brand span { font-size: 0.65rem; color: var(--blue); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
-  .nav-links { display: flex; align-items: center; gap: 36px; }
-  .nav-links a { text-decoration: none; font-size: 0.88rem; font-weight: 500; color: var(--gray-600); transition: color 0.2s; }
-  .nav-links a:hover { color: var(--blue); }
-  .nav-cta {
-    background: var(--gold); color: white;
-    padding: 10px 24px; border-radius: 6px;
-    font-weight: 700; font-size: 0.88rem;
-    text-decoration: none; transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .nav-cta:hover { background: #d97706; }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: var(--gray-800); border-radius: 2px; }
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Bordure discrète au départ */
+  
+  /* ÉTAT INITIAL : Transparent */
+  background: rgba(255, 255, 255, 0); 
+  backdrop-filter: blur(0px);
+  transition: all 0.3s ease; /* Fluidité totale lors du scroll */
+}
 
+/* --- COULEURS DU TEXTE AU DÉPART (SUR LE HERO SOMBRE) --- */
+nav .nav-brand strong { 
+  font-family: 'Playfair Display', serif; font-size: 1.05rem; 
+  color: #ffffff; /* Devient blanc pour être visible */
+  display: block; 
+  transition: color 0.3s;
+}
+nav .nav-brand span { 
+  font-size: 0.65rem; 
+  color: var(--gold); /* Le sous-titre en Or ressortira super bien */
+  font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; 
+}
+nav .nav-links a { 
+  text-decoration: none; font-size: 0.88rem; font-weight: 500; 
+  color: rgba(255, 255, 255, 0.85); /* Liens blancs semi-transparents */
+  transition: color 0.2s; 
+}
+nav .nav-links a:hover { color: var(--gold); }
+
+/* Version blanche des lignes du menu burger pour le mobile au départ */
+nav .hamburger span { 
+  display: block; width: 24px; height: 2px; 
+  background: #ffffff; 
+  border-radius: 2px; 
+  transition: background-color 0.3s;
+}
+
+/* Le bouton CTA (S'inscrire / Devis) reste identique */
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo img { height: 48px; width: auto; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 36px; }
+.nav-cta {
+  background: var(--gold); color: white;
+  padding: 10px 24px; border-radius: 6px;
+  font-weight: 700; font-size: 0.88rem;
+  text-decoration: none; transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: #d97706; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+
+
+/* ==========================================================================
+   ÈTAT AU SCROLL (Ajouté en JavaScript quand l'utilisateur descend)
+   ========================================================================== */
+nav.scrolled {
+  background: rgba(255, 255, 255, 0.97) !important; /* Devient blanc comme avant */
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gray-200);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Petite ombre élégante */
+  height: 65px; /* Devient un chouïa plus compact au scroll */
+}
+
+/* Le texte reprend ses couleurs sombres d'origine sur fond blanc */
+nav.scrolled .nav-brand strong { 
+  color: var(--blue-dark) !important; 
+}
+nav.scrolled .nav-brand span { 
+  color: var(--blue); 
+}
+nav.scrolled .nav-links a { 
+  color: var(--gray-600) !important; 
+}
+nav.scrolled .nav-links a:hover { 
+  color: var(--blue) !important; 
+}
+
+/* Le burger redevient sombre au scroll */
+nav.scrolled .hamburger span { 
+  background: var(--gray-800) !important; 
+}
   /* HERO */
   .hero {
     min-height: 75vh; /* Garde la hauteur réduite souhaitée */
@@ -480,33 +539,34 @@
   /* FADE IN */
   .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
-/* RESPONSIVE */
+
+  /* RESPONSIVE */
   @media (max-width: 960px) {
     /* --- Ajustements spécifiques au Hero en Mobile/Tablette --- */
     .hero {
-      padding: 60px 20px 0px; /* Conserve le 0px en bas pour coller l'image */
-      min-height: auto; /* Laisse le contenu respirer naturellement en hauteur */
+      padding: 120px 20px 0px; /* Augmenté de 60px à 120px pour pousser le texte vers le bas et éviter qu'il passe sous le header */
+      min-height: auto; 
     }
     .hero-inner { 
       grid-template-columns: 1fr; 
       gap: 20px;
     }
     .hero-text {
-      padding-bottom: 0px; /* Supprime le grand décalage du desktop */
-      text-align: center; /* Optionnel : centre le texte pour un rendu mobile plus propre */
+      padding-bottom: 0px; 
+      text-align: center; 
     }
     .hero-btns {
-      justify-content: center; /* Centre les boutons si le texte est centré */
+      justify-content: center; 
     }
     .hero-man { 
       height: auto; 
       margin-top: 30px; 
       width: 100%;
-      justify-content: center; /* Centre l'image sur l'écran */
+      justify-content: center; 
     }
     .hero-man img {
       width: 100%;
-      max-width: 340px; /* Limite la taille de la dame pour ne pas qu'elle étouffe l'écran */
+      max-width: 340px; 
       max-height: 380px;
       object-position: bottom center;
     }
@@ -526,15 +586,19 @@
   }
 
   @media (max-width: 600px) {
+    /* Ajustement du padding haut pour les petits écrans si nécessaire */
+    .hero {
+      padding-top: 100px; 
+    }
     .services-grid { grid-template-columns: 1fr; }
     .why-grid { grid-template-columns: 1fr; }
     
-    /* Ajustement encore plus compact pour les petits smartphones */
     .hero-man img {
       max-width: 280px;
       max-height: 320px;
     }
   }
+
 </style>
 </head>
 <body>
@@ -953,6 +1017,16 @@
   const mainImgEl = document.getElementById('mainImgEl');
   const thumbs = document.querySelectorAll('.thumb-img');
 
+  window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('nav');
+    
+    // Si l'utilisateur a défilé de plus de 20 pixels
+    if (window.scrollY > 20) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
   function setImage(idx) {
     currentImg = idx;
     mainImgEl.style.opacity = '0';
